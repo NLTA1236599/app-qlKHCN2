@@ -30,6 +30,7 @@ const Dashboard: React.FC<DashboardProps> = ({ projects, onNavigate }) => {
     { id: 'hours', label: 'Quản lý giờ NCKH', description: 'Theo dõi giờ định mức và thực tế của giảng viên', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', color: 'bg-amber-500', shadow: 'shadow-amber-100' },
     { id: 'conferences', label: 'Hội nghị hội thảo', description: 'Tổ chức và quản lý sự kiện khoa học công nghệ', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z', color: 'bg-rose-500', shadow: 'shadow-rose-100' },
     { id: 'stats', label: 'Thống kê dữ liệu', description: 'Báo cáo thông minh và phân tích số liệu tổng hợp', icon: 'M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z', color: 'bg-slate-700', shadow: 'shadow-slate-200' },
+    { id: 'transfer', label: 'Chuyển giao công nghệ', description: 'Quản lý chuyển giao kết quả nghiên cứu & sở hữu trí tuệ', icon: 'M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4', color: 'bg-violet-600', shadow: 'shadow-violet-200' },
   ];
 
   const recentProjects = useMemo(() => {
@@ -44,23 +45,7 @@ const Dashboard: React.FC<DashboardProps> = ({ projects, onNavigate }) => {
 
   return (
     <div className="space-y-8 animate-fadeIn pb-20">
-      {/* Header Hub Section */}
-      <div className="bg-white rounded-[40px] p-10 shadow-sm border border-slate-100 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-50/50 rounded-full -mr-32 -mt-32 blur-3xl"></div>
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div>
-            <h1 className="text-4xl font-black tracking-tighter text-slate-900 mb-2 uppercase">Hệ thống Quản lý Khoa học <span className="text-blue-600">UMP</span></h1>
-            <p className="text-slate-500 font-bold text-sm uppercase tracking-[0.3em]">Đại học Y Dược Thành phố Hồ Chí Minh</p>
-          </div>
-          <div className="flex gap-4">
-            <div className="bg-slate-900 text-white px-6 py-4 rounded-[24px] shadow-xl">
-              <span className="block text-[10px] font-black text-blue-400 uppercase tracking-widest mb-1">Phiên bản</span>
-              <span className="text-xl font-black">ENT 2.0</span>
-            </div>
-          </div>
-        </div>
 
-      </div>
 
       {/* Module Tiles Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

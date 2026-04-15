@@ -61,7 +61,7 @@ const Login: React.FC<LoginProps> = ({ onLogin, onRegister }) => {
     <div
       className="min-h-screen flex flex-col items-center justify-center bg-white px-4 relative overflow-hidden"
       style={{
-        backgroundImage: `url('https://ump.edu.vn/uploads/news/2021_01/bia-web-2.png')`,
+        backgroundImage: `url('/bg-login.png')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat'
@@ -71,17 +71,15 @@ const Login: React.FC<LoginProps> = ({ onLogin, onRegister }) => {
       <div className="absolute inset-0 bg-white/40 backdrop-blur-[2px]"></div>
 
       <div className="w-full max-w-sm md:max-w-md animate-fadeIn z-10">
-        <div className="bg-white/95 backdrop-blur-xl p-5 md:p-10 rounded-[28px] md:rounded-[40px] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] border border-white/50 flex flex-col items-center">
-          <div className="bg-[#EBF2FF] w-14 h-14 md:w-20 md:h-20 rounded-[18px] md:rounded-[24px] flex items-center justify-center mb-3 md:mb-6 shadow-sm">
-            <svg className="w-7 h-7 md:w-10 md:h-10 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-            </svg>
+        <div className="bg-white/95 backdrop-blur-xl p-5 md:p-10 rounded-[28px] md:rounded-[40px] shadow-[0_32px_64px_-16px_rgba(37,99,235,0.15)] border-2 border-blue-500/80 flex flex-col items-center">
+          <div className="w-16 h-16 md:w-24 md:h-24 flex items-center justify-center mb-3 md:mb-6 drop-shadow-sm">
+            <img src="/icon.png" alt="Logo" className="w-full h-full object-contain" />
           </div>
 
           <h2 className="text-xl md:text-4xl font-black text-slate-800 tracking-tight mb-1 md:mb-2">
-            {isRegisterMode ? 'Đăng ký' : 'Cổng Quản Lý'}
+            {isRegisterMode ? 'Đăng ký' : 'UMP-RMS'}
           </h2>
-          <p className="text-slate-400 font-bold mb-5 md:mb-10 text-center uppercase tracking-widest text-[9px] md:text-[11px]">Hệ thống Nghiên cứu Khoa học</p>
+          <p className="text-slate-400 font-bold mb-5 md:mb-10 text-center uppercase tracking-widest text-[9px] md:text-[11px]">Hệ thống Quản lý Dự án KHCN UMP</p>
 
           {error && (
             <div className="w-full mb-4 md:mb-6 p-3 md:p-4 bg-red-50 border border-red-100 text-red-600 text-[10px] md:text-sm rounded-xl md:rounded-2xl font-bold flex items-center animate-shake">
@@ -184,9 +182,6 @@ const Login: React.FC<LoginProps> = ({ onLogin, onRegister }) => {
         <div className="mt-6 md:mt-12 text-center space-y-1 md:space-y-2 group">
           <p className="text-[9px] md:text-[11px] font-black text-slate-600 uppercase tracking-widest group-hover:text-blue-600 transition-colors">
             @2026 - Trường Đại học Y Dược TPHCM
-          </p>
-          <p className="text-[9px] md:text-[11px] font-black text-slate-400 uppercase tracking-widest">
-            Được phát triển bởi Ths. Nguyễn Lê Trâm Anh
           </p>
         </div>
       </div>

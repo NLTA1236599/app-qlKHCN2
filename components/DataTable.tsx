@@ -8,13 +8,14 @@ interface DataTableProps {
   onEdit: (project: ResearchProject) => void;
   onView: (project: ResearchProject) => void;
   onImport?: (data: any[]) => void;
+  onDeleteMultiple?: (ids: string[]) => void;
 }
 
 interface ColumnFilters {
   [key: string]: string;
 }
 
-const DataTable: React.FC<DataTableProps> = ({ projects, onDelete, onEdit, onView, onImport }) => {
+const DataTable: React.FC<DataTableProps> = ({ projects, onDelete, onEdit, onView, onImport, onDeleteMultiple }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<ProjectStatus | 'ALL'>('ALL');
   const [selectedProject, setSelectedProject] = useState<ResearchProject | null>(null);
@@ -94,6 +95,12 @@ const DataTable: React.FC<DataTableProps> = ({ projects, onDelete, onEdit, onVie
       newSelected.add(id);
     }
     setSelectedIds(newSelected);
+  };
+
+  const handleDeleteSelected = () => {
+    if (!onDeleteMultiple) return;
+    onDeleteMultiple(Array.from(selectedIds));
+    setSelectedIds(new Set());
   };
 
   const getStatusBadge = (status: ProjectStatus) => {
@@ -426,6 +433,15 @@ const DataTable: React.FC<DataTableProps> = ({ projects, onDelete, onEdit, onVie
           {(searchTerm || Object.keys(columnFilters).length > 0) && (
             <button onClick={() => { setSearchTerm(''); setColumnFilters({}); }} className="px-4 py-2 bg-red-50 text-red-600 text-xs font-bold rounded-lg hover:bg-red-100 transition">
               RESET
+            </button>
+          )}
+          {selectedIds.size > 0 && onDeleteMultiple && (
+            <button
+              onClick={handleDeleteSelected}
+              className="flex items-center px-4 py-2 bg-red-600 text-white text-xs font-bold rounded-lg hover:bg-red-700 transition shadow-lg shadow-red-100"
+            >
+              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+              XÓA ĐÃ CHỌN ({selectedIds.size})
             </button>
           )}
         </div>

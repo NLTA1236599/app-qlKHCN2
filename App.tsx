@@ -211,6 +211,29 @@ const App: React.FC = () => {
     }
   };
 
+  const deleteMultipleProjects = async (ids: string[]) => {
+    if (!window.confirm(`Bạn có chắc chắn muốn xóa ${ids.length} đề tài đã chọn?`)) return;
+    setIsLoading(true);
+    let successCount = 0;
+    try {
+      for (const id of ids) {
+        try {
+          await dbService.deleteProject(id);
+          successCount++;
+        } catch (err) {
+          console.error("Delete error:", err);
+        }
+      }
+      setProjects(prev => prev.filter(p => !ids.includes(p.id)));
+      showNotification(`Đã xóa ${successCount}/${ids.length} đề tài thành công.`);
+    } catch (error) {
+      console.error("Delete Multiple error:", error);
+      alert("Lỗi trong quá trình xóa dữ liệu trên Cloud.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleImportProjects = async (importedProjects: any[]) => {
     if (!importedProjects || importedProjects.length === 0) return;
     if (!window.confirm(`Bạn có chắc chắn muốn nhập ${importedProjects.length} đề tài từ Excel không?`)) return;
@@ -279,7 +302,7 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="flex h-screen bg-slate-50 relative overflow-x-hidden">
+    <div className="flex h-screen bg-slate-50 relative overflow-hidden">
       {notification && (
         <div className="fixed top-20 right-6 z-[100] animate-slideDown">
           <div className="bg-blue-600 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center space-x-3 border border-blue-400">
@@ -318,10 +341,12 @@ const App: React.FC = () => {
         }}
         isOpen={isSidebarOpen}
         userRole={user?.role}
+        user={user}
+        onLogout={handleLogout}
       />
 
-      <div className="flex-1 flex flex-col min-w-0">
-        <Header user={user} onLogout={handleLogout} toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
+      <div className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto">
+        <Header toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
         <main className="p-4 md:p-6 overflow-x-hidden">
           <div className="max-w-[1600px] mx-auto">
             {currentView === 'overview' && <Overview projects={projects} />}
@@ -335,6 +360,7 @@ const App: React.FC = () => {
                 setCurrentView('detail');
               }}
               onImport={handleImportProjects}
+              onDeleteMultiple={deleteMultipleProjects}
             />}
             {currentView === 'dashboard' && <Dashboard projects={projects} onNavigate={setCurrentView} />}
             {currentView === 'entry' && <DataEntry onSave={saveProject} initialData={editingProject} onCancel={() => {

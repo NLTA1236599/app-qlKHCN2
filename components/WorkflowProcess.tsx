@@ -53,7 +53,7 @@ const WorkflowProcess: React.FC = () => {
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                         <thead>
-                            <tr className="bg-slate-900 text-white">
+                            <tr className="bg-blue-600 text-white">
                                 <th className="px-6 py-5 text-[11px] font-black uppercase tracking-widest border-r border-white/10 w-16">STT</th>
                                 <th className="px-8 py-5 text-[11px] font-black uppercase tracking-widest border-r border-white/10">Tên dịch vụ công</th>
                                 <th className="px-8 py-5 text-[11px] font-black uppercase tracking-widest border-r border-white/10">Thủ tục hành chính tương ứng</th>
