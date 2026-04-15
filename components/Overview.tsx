@@ -257,15 +257,15 @@ const Overview: React.FC<OverviewProps> = ({ projects }) => {
               </h3>
               <div className="h-80">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={departmentData}>
+                  <BarChart data={departmentData} layout="vertical">
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#64748b' }} interval={0} />
-                    <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#64748b' }} />
+                    <XAxis type="number" dataKey="budget" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#64748b' }} />
+                    <YAxis type="category" dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#64748b' }} width={180} />
                     <Tooltip
                       cursor={{ fill: '#f8fafc' }}
                       contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                     />
-                    <Bar dataKey="budget" fill="#3b82f6" radius={[6, 6, 0, 0]} barSize={32} name="Kinh phí" />
+                    <Bar dataKey="budget" fill="#3b82f6" radius={[0, 6, 6, 0]} barSize={20} name="Kinh phí" />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
