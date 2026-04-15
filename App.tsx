@@ -1,16 +1,16 @@
 
 import React, { useState, useEffect } from 'react';
 import { ViewType, ResearchProject, ProjectStatus, User } from './types';
-import Login from './components/Login';
+import Login from './components/0-Login';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
-import Overview from './components/Overview';
-import DataTable from './components/DataTable';
-import Dashboard from './components/Dashboard';
-import DataEntry from './components/DataEntry';
+import Overview from './components/2-QuanLyDeTai';
+import DataTable from './components/4-DulieuNghienCuu';
+import Dashboard from './components/1-Dashboard';
+import DataEntry from './components/5-NhapDuLieuMoi';
 import ProjectDetail from './components/ProjectDetail';
 import ProgressTracking from './components/ProgressTracking';
-import WorkflowProcess from './components/WorkflowProcess';
+import WorkflowProcess from './components/6-QuyTrinhNghienCuu';
 
 const MOCK_DATA: ResearchProject[] = [
   {
