@@ -18,18 +18,49 @@ const Overview: React.FC<OverviewProps> = ({ projects }) => {
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   // Filter States
-  const [selectedYear, setSelectedYear] = useState<string>('all');
+  const [selectedStartDate, setSelectedStartDate] = useState<string>('all');
+  const [selectedResearchField, setSelectedResearchField] = useState<string>('all');
   const [selectedStatus, setSelectedStatus] = useState<string>('all');
   const [selectedDepartment, setSelectedDepartment] = useState<string>('all');
 
-  const availableYears = useMemo(() => {
+  const extractYearFromDate = (dateValue: unknown): string | null => {
+    if (!dateValue) return null;
+
+    const raw = String(dateValue).trim();
+    if (!raw) return null;
+
+    if (/^\d{4}$/.test(raw)) return raw;
+
+    const ddmmyyyyMatch = raw.match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{4})$/);
+    if (ddmmyyyyMatch) return ddmmyyyyMatch[3];
+
+    const yyyymmddMatch = raw.match(/^(\d{4})[/-](\d{1,2})(?:[/-](\d{1,2}))?$/);
+    if (yyyymmddMatch) return yyyymmddMatch[1];
+
+    const numericValue = Number(raw);
+    if (!Number.isNaN(numericValue) && /^\d+(\.\d+)?$/.test(raw)) {
+      // Excel serial dates are often in this range.
+      if (numericValue > 20000 && numericValue < 100000) {
+        const excelEpoch = new Date(Date.UTC(1899, 11, 30));
+        excelEpoch.setUTCDate(excelEpoch.getUTCDate() + Math.floor(numericValue));
+        return excelEpoch.getUTCFullYear().toString();
+      }
+    }
+
+    const parsed = new Date(raw);
+    if (!Number.isNaN(parsed.getTime())) {
+      return parsed.getFullYear().toString();
+    }
+
+    return null;
+  };
+
+  const availableStartDate = useMemo(() => {
     const years = new Set<string>();
     projects.forEach(p => {
       if ((p as any).startDate) {
-        try {
-          const year = new Date((p as any).startDate).getFullYear().toString();
-          if (year !== 'NaN') years.add(year);
-        } catch (e) { }
+        const year = extractYearFromDate((p as any).startDate);
+        if (year) years.add(year);
       }
     });
     return Array.from(years).sort().reverse();
@@ -43,24 +74,28 @@ const Overview: React.FC<OverviewProps> = ({ projects }) => {
     return Array.from(new Set(projects.map(p => p.status))).filter(Boolean).sort();
   }, [projects]);
 
+  const availableResearchFields = useMemo(() => {
+    return Array.from(new Set(projects.map(p => p.researchField))).filter(Boolean).sort();
+  }, [projects]);
+
   const filteredProjects = useMemo(() => {
     return projects.filter(p => {
       let matchYear = true;
-      if (selectedYear !== 'all') {
+      if (selectedStartDate !== 'all') {
         if ((p as any).startDate) {
-          const year = new Date((p as any).startDate).getFullYear().toString();
-          matchYear = year === selectedYear;
+          const year = extractYearFromDate((p as any).startDate);
+          matchYear = year === selectedStartDate;
         } else {
           matchYear = false;
         }
       }
-
+      const matchResearchField = selectedResearchField === 'all' || p.researchField === selectedResearchField;
       const matchStatus = selectedStatus === 'all' || p.status === selectedStatus;
       const matchDepartment = selectedDepartment === 'all' || p.department === selectedDepartment;
 
-      return matchYear && matchStatus && matchDepartment;
+      return matchYear && matchStatus && matchDepartment && matchResearchField;
     });
-  }, [projects, selectedYear, selectedStatus, selectedDepartment]);
+  }, [projects, selectedStartDate, selectedStatus, selectedResearchField, selectedDepartment]);
 
   const getStatusColor = (status: string) => {
     const s = status.toLowerCase();
@@ -305,16 +340,16 @@ const Overview: React.FC<OverviewProps> = ({ projects }) => {
                   <svg className="w-4 h-4 mr-2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
-                  Thời gian bắt đầu
+                  Năm bắt đầu
                 </label>
                 <select
                   className="w-full bg-slate-50 border border-slate-200 text-slate-700 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-2.5 outline-none transition-all"
-                  value={selectedYear}
-                  onChange={e => setSelectedYear(e.target.value)}
+                  value={selectedStartDate}
+                  onChange={e => setSelectedStartDate(e.target.value)}
                 >
-                  <option value="all">Tất cả các năm ({availableYears.length})</option>
-                  {availableYears.map(year => (
-                    <option key={year} value={year}>{year}</option>
+                  <option value="all">Tất cả các năm bắt đầu({availableStartDate.length})</option>
+                  {availableStartDate.map(StartDate => (
+                    <option key={StartDate} value={StartDate}>{StartDate}</option>
                   ))}
                 </select>
               </div>
@@ -349,12 +384,12 @@ const Overview: React.FC<OverviewProps> = ({ projects }) => {
                 </label>
                 <select
                   className="w-full bg-slate-50 border border-slate-200 text-slate-700 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-2.5 outline-none transition-all"
-                  value={selectedStatus}
-                  onChange={e => setSelectedStatus(e.target.value)}
+                  value={selectedResearchField}
+                  onChange={e => setSelectedResearchField(e.target.value)}
                 >
                   <option value="all">Tất cả lĩnh vực</option>
-                  {availableStatuses.map(status => (
-                    <option key={status} value={status}>{status}</option>
+                  {availableResearchFields.map(field => (
+                    <option key={field} value={field}>{field}</option>
                   ))}
                 </select>
               </div>
