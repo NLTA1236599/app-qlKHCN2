@@ -47,7 +47,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, isOpen, userRol
       return ['dashboard', 'overview'].includes(item.id);
     }
     if (userRole === 'specialist') {
-      return ['progress_tracking', 'table', 'entry', 'workflow_process'].includes(item.id);
+      return ['overview', 'progress_tracking', 'table', 'entry', 'workflow_process'].includes(item.id);
     }
     if (userRole === 'author') {
       return ['entry', 'workflow_process'].includes(item.id);
