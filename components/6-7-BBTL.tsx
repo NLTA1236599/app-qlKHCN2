@@ -205,7 +205,7 @@ export const ContractTemplateBuilder: React.FC<{ onClose: () => void }> = ({ onC
                 <div className="bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center z-10 shrink-0">
                     <div className="flex items-center space-x-3">
                         <span className="w-2 h-8 bg-blue-600 rounded-full"></span>
-                        <h2 className="text-xl font-black uppercase tracking-wider text-slate-800">Biểu mẫu Hợp Đồng Đề Tài</h2>
+                        <h2 className="text-xl font-black uppercase tracking-wider text-slate-800">Biểu mẫu Biên bản Thanh lý Hợp đồng</h2>
                     </div>
                     <div className="flex space-x-2">
                         <input type="file" ref={fileInputRef} onChange={handleImportWord} className="hidden" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
@@ -231,7 +231,7 @@ export const ContractTemplateBuilder: React.FC<{ onClose: () => void }> = ({ onC
                 <div className="flex-1 overflow-y-auto p-8 scrollbar-thin scrollbar-thumb-slate-200">
                     <div ref={docRef} className="max-w-4xl mx-auto bg-white p-10 rounded-[20px] shadow-sm border border-slate-100 min-h-[500px]">
                         {importedHtml ? (
-                            <div 
+                            <div
                                 className="w-full min-h-[500px] outline-none 
                                     focus:ring-2 focus:ring-blue-100 p-6 rounded-xl transition-all 
                                     text-[15px] leading-relaxed text-slate-900 focus:bg-slate-50/50 
@@ -239,7 +239,7 @@ export const ContractTemplateBuilder: React.FC<{ onClose: () => void }> = ({ onC
                                 contentEditable={true}
                                 suppressContentEditableWarning={true}
                                 onBlur={(e) => setImportedHtml(e.currentTarget.innerHTML)}
-                                dangerouslySetInnerHTML={{ __html: importedHtml }} 
+                                dangerouslySetInnerHTML={{ __html: importedHtml }}
                             />
                         ) : (
                             <div className="flex flex-col items-center justify-center h-full space-y-4 text-slate-400 mt-20">

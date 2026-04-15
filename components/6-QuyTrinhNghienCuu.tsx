@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { ContractTemplateBuilder } from './ContractTemplateBuilder';
+import { ContractTemplateBuilder } from './6-3-HopdongDetai';
 
 const WorkflowProcess: React.FC = () => {
     const [showContractBuilder, setShowContractBuilder] = useState(false);
