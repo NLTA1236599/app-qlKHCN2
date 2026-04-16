@@ -9,12 +9,13 @@ const apiKey = import.meta.env.VITE_FIREBASE_API_KEY;
 const isConfigured = apiKey && apiKey !== 'PLACEHOLDER_FIREBASE_KEY';
 
 const firebaseConfig = {
-    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-    appId: import.meta.env.VITE_FIREBASE_APP_ID
+    apiKey: "AIzaSyA_vbEEoJfpqTmOMnZoP2XdmWVKPb8bIJw",
+    authDomain: "qlkhcn-ump.firebaseapp.com",
+    projectId: "qlkhcn-ump",
+    storageBucket: "qlkhcn-ump.firebasestorage.app",
+    messagingSenderId: "898327422419",
+    appId: "1:898327422419:web:6d340ee3a7456687c97b26",
+    measurementId: "G-YCRELC5B9B"
 };
 
 let app: any;

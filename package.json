@@ -24,10 +24,14 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "^4.2.2",
     "@types/file-saver": "^2.0.7",
     "@types/html2canvas": "^0.5.35",
     "@types/node": "^22.14.0",
     "@vitejs/plugin-react": "^5.0.0",
+    "autoprefixer": "^10.5.0",
+    "postcss": "^8.5.10",
+    "tailwindcss": "^4.2.2",
     "typescript": "~5.8.2",
     "vite": "^6.2.0"
   }
