@@ -581,33 +581,7 @@ const Overview: React.FC<OverviewProps> = ({ projects }) => {
                 <span className="w-1.5 h-6 bg-blue-600 rounded-full mr-2"></span>
                 Bộ Lọc Dữ Liệu
               </h3>
-              <button
-                onClick={() => {
-                  const headers = ['Tên đề tài', 'Đơn vị', 'Trạng thái', 'Kinh phí'];
-                  const csvContent = [
-                    headers.join(','),
-                    ...filteredProjects.map(p =>
-                      `"${p.name}","${p.department}","${p.status}","${p.budget}"`
-                    )
-                  ].join('\n');
 
-                  const blob = new Blob(["\ufeff" + csvContent], { type: 'text/csv;charset=utf-8;' });
-                  const url = URL.createObjectURL(blob);
-                  const link = document.createElement('a');
-                  link.href = url;
-                  link.setAttribute('download', 'thong_ke_de_tai.csv');
-                  document.body.appendChild(link);
-                  link.click();
-                  document.body.removeChild(link);
-                }}
-                className="text-xs text-green-600 hover:text-green-800 font-semibold bg-green-50 hover:bg-green-100 px-3 py-1.5 rounded-lg transition-colors flex items-center"
-                title="Xuất danh sách đề tài hiện tại ra file CSV"
-              >
-                <svg className="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-                Xuất dữ liệu
-              </button>
             </div>
 
             <div className="space-y-4">
