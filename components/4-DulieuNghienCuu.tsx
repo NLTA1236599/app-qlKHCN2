@@ -139,6 +139,20 @@ const DataTable: React.FC<DataTableProps> = ({ projects, onDelete, onEdit, onVie
       return `${day}/${month}/${year}`;
     }
 
+    // Recover from corrupted Excel dates (e.g. 31/12/45747 or +045746-12-31)
+    const largeYearMatch = str.match(/(\d{5,})/);
+    if (largeYearMatch) {
+      const excelNum = Number(largeYearMatch[1]);
+      // If valid Excel serial range
+      if (excelNum > 20000 && excelNum < 100000) {
+        const date = new Date((excelNum - 25569) * 86400 * 1000);
+        const day = date.getUTCDate().toString().padStart(2, '0');
+        const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+        const year = date.getUTCFullYear();
+        return `${day}/${month}/${year}`;
+      }
+    }
+
     // Fix: Handle YYYY-MM-DD manually to avoid Timezone offset issues (e.g. previous day)
     if (/^\d{4}-\d{2}-\d{2}$/.test(str)) {
       const parts = str.split('-');
@@ -153,9 +167,14 @@ const DataTable: React.FC<DataTableProps> = ({ projects, onDelete, onEdit, onVie
     const date = new Date(str);
     if (isNaN(date.getTime())) return str;
 
+    const year = date.getFullYear();
+    if (year > 20000 && year < 100000) {
+       const correctedDate = new Date((year - 25569) * 86400 * 1000);
+       return `${correctedDate.getUTCDate().toString().padStart(2, '0')}/${(correctedDate.getUTCMonth() + 1).toString().padStart(2, '0')}/${correctedDate.getUTCFullYear()}`;
+    }
+
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear();
     return `${day}/${month}/${year}`;
   };
 

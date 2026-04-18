@@ -79,18 +79,41 @@ const DataEntry: React.FC<DataEntryProps> = ({ onSave, initialData, onCancel }) 
   // Helper to convert DD/MM/YYYY or other formats to YYYY-MM-DD for input[type="date"]
   const toInputDate = (str?: string) => {
     if (!str) return '';
+    const s = String(str).trim();
+
+    // 1. Direct Excel serial check
+    if (/^\d+(\.\d+)?$/.test(s) && Number(s) > 20000 && Number(s) < 100000) {
+      const date = new Date((Number(s) - 25569) * 86400 * 1000);
+      return date.toISOString().split('T')[0];
+    }
+
+    // 2. Corrupted Excel date detection
+    const largeYearMatch = s.match(/(\d{5,})/);
+    if (largeYearMatch) {
+      const excelNum = Number(largeYearMatch[1]);
+      if (excelNum > 20000 && excelNum < 100000) {
+        const date = new Date((excelNum - 25569) * 86400 * 1000);
+        return date.toISOString().split('T')[0];
+      }
+    }
+
     // If already YYYY-MM-DD
-    if (/^\d{4}-\d{2}-\d{2}$/.test(str)) return str;
+    if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
     // If DD/MM/YYYY
-    if (/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.test(str)) {
-      const parts = str.split('/'); // simple split is safer than regex match indexing
+    if (/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.test(s)) {
+      const parts = s.split('/'); // simple split is safer than regex match indexing
       if (parts.length === 3) {
         return `${parts[2]}-${parts[1].padStart(2, '0')}-${parts[0].padStart(2, '0')}`;
       }
     }
     // Try Date parse (handle ISO strings or other parsable formats)
-    const date = new Date(str);
+    const date = new Date(s);
     if (!isNaN(date.getTime())) {
+      const year = date.getFullYear();
+      if (year > 20000 && year < 100000) {
+        const correctedDate = new Date((year - 25569) * 86400 * 1000);
+        return correctedDate.toISOString().split('T')[0];
+      }
       return date.toISOString().split('T')[0];
     }
     return '';
